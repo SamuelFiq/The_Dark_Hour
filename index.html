@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Qué son Tor e I2P, su historia y cómo funciona el acceso a sitios .onion e .i2p. Sitio educativo hecho solo con HTML y CSS.">
+<title>La Hora Oscura de la Red · Tor e I2P</title>
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<!-- ===================== PANTALLA DE CARGA (solo CSS) ===================== -->
+<div class="carga" aria-hidden="true">
+  <div class="carga__ondas"><span></span><span></span><span></span><span></span></div>
+  <div class="carga__hora"><small>LA HORA OSCURA</small>00:00</div>
+  <div class="carga__reloj"></div>
+  <div class="carga__tip"><b>TIP</b>Un servicio .onion nunca sale de la red Tor: no necesita relé de salida.</div>
+  <div class="carga__texto">NOW LOADING<i>.</i><i>.</i><i>.</i></div>
+</div>
+
+<!-- ===================== CABECERA ===================== -->
+<header class="cabecera">
+  <a class="hora" href="#menu" title="Volver al menú principal">
+    <span class="hora__luna" aria-hidden="true"></span>
+    <span class="hora__dato"><small>LA HORA OSCURA</small>00:00</span>
+  </a>
+  <div class="musica">
+    <span class="musica__titulo">♪ BGM · Color Your Night<small>Lotus Juice · Persona 3 Reload</small></span>
+    <audio controls loop preload="none">
+      <source src="audio/color-your-night.ogg" type="audio/ogg; codecs=opus">
+      Tu navegador no puede reproducir audio.
+    </audio>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Secciones">
+  <a href="#menu"><span>MENÚ</span></a>
+  <a href="#darkweb"><span>DARK WEB</span></a>
+  <a href="#historia"><span>HISTORIA</span></a>
+  <a href="#tor"><span>TOR</span></a>
+  <a href="#i2p"><span>I2P</span></a>
+  <a href="#acceso"><span>ACCESO</span></a>
+  <a href="#comparar"><span>TOR VS I2P</span></a>
+</nav>
+
+<main id="contenido">
+
+<!-- =========================================================
+     01 · DARK WEB
+     ========================================================= -->
+<section class="pantalla" id="darkweb" aria-labelledby="t-darkweb">
+<div class="escena">
+  <div class="encabezado">
+    <div class="carta"><img src="img/arcano-0.svg" alt="" width="200" height="320"><span class="carta__num">0</span><span class="carta__nombre">EL LOCO</span></div>
+    <div>
+      <h2 class="titulo" id="t-darkweb">Dark Web</h2>
+      <span class="titulo__sub">Antes de entrar: ¿de qué estamos hablando?</span>
+    </div>
+  </div>
+
+  <article class="panel">
+    <h3 data-n="01">Tres términos que se confunden</h3>
+    <p>“Web profunda”, “darknet” y “dark web” se usan como sinónimos, pero no lo son. La diferencia está en <strong>por qué</strong> un contenido no se ve desde un buscador normal.</p>
+    <div class="fichas">
+      <div class="ficha">
+        <h4>Web profunda</h4>
+        <p>Contenido que <strong>no está indexado</strong> por buscadores: tu correo, la intranet de una empresa, la plataforma de la universidad o cualquier página detrás de un inicio de sesión. Es la mayor parte de la web y casi todo es perfectamente cotidiano.</p>
+      </div>
+      <div class="ficha ficha--verde">
+        <h4>Darknet</h4>
+        <p>Una <strong>red superpuesta</strong> (funciona “encima” de Internet) que requiere software específico y busca ocultar la relación entre los dos extremos de una comunicación. Tor e I2P son darknets.</p>
+      </div>
+      <div class="ficha ficha--rojo">
+        <h4>Dark web</h4>
+        <p>Los <strong>servicios alojados dentro</strong> de una darknet: sitios <code>.onion</code> en Tor o sitios <code>.i2p</code> (eepsites) en I2P. Este mismo sitio está pensado para publicarse así.</p>
+      </div>
+    </div>
+    <div class="nota"><b>OJO</b>Estar en la dark web no hace algo ilegal. Periódicos, organizaciones de derechos humanos y hasta entidades públicas publican sitios .onion para que cualquiera pueda llegar a ellos sin ser vigilado ni censurado.</div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="02">Ruteo en capas: la idea central</h3>
+    <p>Imagina que quieres enviar una carta sin que nadie sepa que tú le escribes a esa persona. Metes la carta en un sobre para el último mensajero, ese sobre dentro de otro para el mensajero del medio y ese dentro de otro para el primero. Cada mensajero solo puede abrir <strong>su</strong> sobre: ve de quién lo recibió y a quién debe pasarlo, nada más.</p>
+    <figure class="diagrama">
+      <svg viewBox="0 0 900 250" role="img" aria-label="El cliente cifra el mensaje en tres capas; cada relé retira una capa hasta que el dato llega al servidor.">
+        <g class="d-linea"><line x1="120" y1="170" x2="210" y2="170"/><line x1="330" y1="170" x2="390" y2="170"/><line x1="510" y1="170" x2="570" y2="170"/><line x1="690" y1="170" x2="780" y2="170"/></g>
+        <rect class="d-caja2" x="0" y="145" width="120" height="50" rx="4"/><text class="d-txt" x="60" y="175" text-anchor="middle">Cliente</text>
+        <rect class="d-caja" x="210" y="145" width="120" height="50" rx="4"/><text class="d-txt" x="270" y="175" text-anchor="middle">Relé 1</text>
+        <rect class="d-caja" x="390" y="145" width="120" height="50" rx="4"/><text class="d-txt" x="450" y="175" text-anchor="middle">Relé 2</text>
+        <rect class="d-caja" x="570" y="145" width="120" height="50" rx="4"/><text class="d-txt" x="630" y="175" text-anchor="middle">Relé 3</text>
+        <rect class="d-caja2" x="780" y="145" width="120" height="50" rx="4"/><text class="d-txt" x="840" y="175" text-anchor="middle">Servidor</text>
+        <!-- paquetes -->
+        <rect x="120" y="45" width="90" height="60" fill="#0b2f6e" stroke="#2ec5ff" stroke-width="3"/>
+        <rect x="132" y="54" width="66" height="42" fill="#0b4a3a" stroke="#5dffb8" stroke-width="3"/>
+        <rect x="144" y="62" width="42" height="26" fill="#04153a" stroke="#f2fbff" stroke-width="3"/>
+        <rect x="155" y="69" width="20" height="12" fill="#f2fbff"/>
+        <rect x="327" y="54" width="66" height="42" fill="#0b4a3a" stroke="#5dffb8" stroke-width="3"/>
+        <rect x="339" y="62" width="42" height="26" fill="#04153a" stroke="#f2fbff" stroke-width="3"/>
+        <rect x="350" y="69" width="20" height="12" fill="#f2fbff"/>
+        <rect x="519" y="62" width="42" height="26" fill="#04153a" stroke="#f2fbff" stroke-width="3"/>
+        <rect x="530" y="69" width="20" height="12" fill="#f2fbff"/>
+        <rect x="725" y="69" width="20" height="12" fill="#f2fbff"/>
+        <text class="d-sub" x="735" y="60" text-anchor="middle">dato</text>
+        <text class="d-sub" x="60" y="218" text-anchor="middle">cifra 3 capas</text>
+        <text class="d-sub" x="270" y="218" text-anchor="middle">retira la capa cian</text>
+        <text class="d-sub" x="450" y="218" text-anchor="middle">retira la capa verde</text>
+        <text class="d-sub" x="630" y="218" text-anchor="middle">retira la capa blanca</text>
+        <text class="d-sub" x="840" y="218" text-anchor="middle">recibe el dato</text>
+      </svg>
+      <figcaption>Cada relé “pela” una capa de cifrado. El mensaje se va haciendo más pequeño, como una cebolla: de ahí el nombre <em>onion routing</em>.</figcaption>
+    </figure>
+    <ul>
+      <li>El emisor cifra el mensaje en capas y lo envía por una secuencia de relés.</li>
+      <li>Cada relé retira una capa y conoce <strong>solo el salto anterior y el siguiente</strong>.</li>
+      <li>Ningún relé intermedio necesita conocer a la vez el origen y el destino.</li>
+    </ul>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="03">Anonimato no es invisibilidad</h3>
+    <div class="dos-columnas">
+      <div>
+        <h4>Lo que la red sí oculta</h4>
+        <ul>
+          <li>La relación entre quién eres (tu IP) y qué sitio visitas.</li>
+          <li>En los servicios ocultos, también la ubicación real del servidor.</li>
+          <li>El contenido del tráfico frente a quien observa tu conexión local.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Lo que la red no puede ocultar</h4>
+        <ul>
+          <li>Lo que tú mismo escribes: nombres, correos, cuentas personales.</li>
+          <li>Archivos que descargas y abres fuera del navegador.</li>
+          <li>Errores de las aplicaciones o de quien administra un servicio.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="nota"><b>LECCIÓN</b>Hay que distinguir la seguridad de la <strong>red</strong>, la de las <strong>aplicaciones</strong> y la de las <strong>prácticas de sus usuarios</strong>. La historia de Silk Road lo muestra muy bien.</div>
+    <a class="volver" href="#menu">◀ MENÚ</a>
+    <a class="volver siguiente" href="#historia">HISTORIA ▶</a>
+  </article>
+</div>
+</section>
+
+<!-- =========================================================
+     02 · HISTORIA
+     ========================================================= -->
+<section class="pantalla" id="historia" aria-labelledby="t-historia">
+<div class="escena">
+  <div class="encabezado">
+    <div class="carta"><img src="img/arcano-10.svg" alt="" width="200" height="320"><span class="carta__num">X</span><span class="carta__nombre">LA RUEDA</span></div>
+    <div>
+      <h2 class="titulo" id="t-historia">Historia</h2>
+      <span class="titulo__sub">De un laboratorio naval a millones de usuarios</span>
+    </div>
+  </div>
+
+  <article class="panel">
+    <h3 data-n="01">Línea de tiempo</h3>
+    <ol class="tiempo">
+      <li><span class="tiempo__anio">1995</span>
+        <h4>Nace el onion routing</h4>
+        <p>Investigadores del <strong>Naval Research Laboratory</strong> de Estados Unidos empiezan a estudiar el ruteo en capas: proteger comunicaciones haciendo que ningún punto intermedio vea a la vez el origen y el destino.</p></li>
+      <li><span class="tiempo__anio">2002</span>
+        <h4>Primera versión alfa de Tor</h4>
+        <p>Aparece Tor, “The Onion Router”: la segunda generación de esa idea, pensada para que cualquier persona pueda usarla en Internet.</p></li>
+      <li><span class="tiempo__anio tiempo__anio--verde">2003</span>
+        <h4>Comienza el desarrollo de I2P</h4>
+        <p>El “Invisible Internet Project” toma otro rumbo: en lugar de priorizar la salida a la web pública, se enfoca en servicios que viven <em>dentro</em> de su propia red.</p></li>
+      <li><span class="tiempo__anio">2004</span>
+        <h4>Tor se presenta al mundo académico</h4>
+        <p>Se publica el artículo que describe el diseño de Tor y su código se libera como software libre, lo que permite que cualquiera lo revise y opere relés.</p></li>
+      <li><span class="tiempo__anio">2006</span>
+        <h4>Nace The Tor Project</h4>
+        <p>Tor Project se constituye como organización sin ánimo de lucro para mantener el software y la red.</p></li>
+      <li><span class="tiempo__anio tiempo__anio--rojo">2011–2013</span>
+        <h4>Silk Road</h4>
+        <p>Un mercado que funcionaba como servicio oculto dentro de Tor. En 2013 su administrador fue identificado y detenido.</p></li>
+      <li><span class="tiempo__anio">2017–2018</span>
+        <h4>Servicios onion v3</h4>
+        <p>Llegan las direcciones de 56 caracteres basadas en claves Ed25519, mucho más robustas que las antiguas de 16.</p></li>
+      <li><span class="tiempo__anio">2021</span>
+        <h4>Adiós a las direcciones v2</h4>
+        <p>Tor deja de dar soporte a los servicios onion v2. Desde entonces, toda dirección .onion válida es v3.</p></li>
+    </ol>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="02">El caso Silk Road</h3>
+    <p>Silk Road fue un mercado que funcionaba como <strong>servicio oculto dentro de Tor</strong>. En 2013 su administrador, Ross Ulbricht, fue identificado y detenido.</p>
+    <p>Lo interesante para una clase de redes es <em>cómo</em>: la investigación no consistió en “romper” el cifrado de Tor, sino en aprovechar errores fuera de la red, como rastros dejados en foros públicos de Internet y fallas de configuración del propio servicio.</p>
+    <div class="fichas">
+      <div class="ficha"><h4>Seguridad de la red</h4><p>Lo que garantiza Tor: rutas en capas, cifrado entre relés, direcciones autenticadas.</p></div>
+      <div class="ficha ficha--verde"><h4>Seguridad de la aplicación</h4><p>Lo que depende del sitio: su servidor web, su configuración, sus posibles fugas de información.</p></div>
+      <div class="ficha ficha--rojo"><h4>Prácticas del usuario</h4><p>Lo que depende de las personas: reutilizar nombres, correos o cuentas que las identifican.</p></div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="03">Dos caminos, un mismo objetivo</h3>
+    <p>Tor e I2P comparten la meta de <strong>reducir la exposición de la identidad</strong> en la red, pero sus arquitecturas evolucionaron con prioridades distintas: Tor apostó por el <strong>acceso privado a la web pública</strong> (y, además, a servicios .onion), mientras que I2P apostó por los <strong>servicios internos</strong> de su propia red.</p>
+    <a class="volver" href="#darkweb">◀ DARK WEB</a>
+    <a class="volver siguiente" href="#tor">TOR ▶</a>
+  </article>
+</div>
+</section>
+
+<!-- =========================================================
+     03 · TOR
+     ========================================================= -->
+<section class="pantalla" id="tor" aria-labelledby="t-tor">
+<div class="escena">
+  <div class="encabezado">
+    <div class="carta"><img src="img/arcano-18.svg" alt="" width="200" height="320"><span class="carta__num">XVIII</span><span class="carta__nombre">LA LUNA</span></div>
+    <div>
+      <h2 class="titulo" id="t-tor">Tor</h2>
+      <span class="titulo__sub">The Onion Router: circuitos de tres relés</span>
+    </div>
+  </div>
+
+  <article class="panel">
+    <h3 data-n="01">El circuito</h3>
+    <p>Tor es una red de miles de servidores voluntarios llamados <strong>relés</strong>. El cliente descarga periódicamente un <em>consenso</em> firmado por las autoridades de directorio, que lista los relés disponibles. Con esa lista elige tres y construye un <strong>circuito</strong>, negociando una clave distinta con cada uno, salto a salto.</p>
+    <figure class="diagrama">
+      <svg viewBox="0 0 900 230" role="img" aria-label="Circuito Tor: cliente, guard, middle, exit y servidor web.">
+        <path class="d-punteada" d="M60 62 V48 H645 V62"/>
+        <text class="d-tit" x="352" y="38" text-anchor="middle">CIFRADO DE TOR (CAPAS)</text>
+        <g class="d-linea d-flujo"><line x1="120" y1="110" x2="195" y2="110"/><line x1="315" y1="110" x2="390" y2="110"/><line x1="510" y1="110" x2="585" y2="110"/></g>
+        <line class="d-punteada" x1="705" y1="110" x2="780" y2="110"/>
+        <text class="d-sub" x="742" y="80" text-anchor="middle">¿HTTPS?</text>
+        <rect class="d-caja2" x="0" y="85" width="120" height="50" rx="4"/><text class="d-txt" x="60" y="115" text-anchor="middle">Cliente Tor</text>
+        <rect class="d-verde" x="195" y="85" width="120" height="50" rx="4"/><text class="d-txt" x="255" y="115" text-anchor="middle">Guard</text>
+        <rect class="d-caja" x="390" y="85" width="120" height="50" rx="4"/><text class="d-txt" x="450" y="115" text-anchor="middle">Middle</text>
+        <rect class="d-rojo" x="585" y="85" width="120" height="50" rx="4"/><text class="d-txt" x="645" y="115" text-anchor="middle">Exit</text>
+        <rect class="d-caja2" x="780" y="85" width="120" height="50" rx="4"/><text class="d-txt" x="840" y="115" text-anchor="middle">Servidor web</text>
+        <text class="d-sub" x="60" y="160" text-anchor="middle">tu IP real</text>
+        <text class="d-sub" x="255" y="160" text-anchor="middle">ve tu IP</text>
+        <text class="d-sub" x="255" y="177" text-anchor="middle">no ve el destino</text>
+        <text class="d-sub" x="450" y="160" text-anchor="middle">no ve origen</text>
+        <text class="d-sub" x="450" y="177" text-anchor="middle">ni destino</text>
+        <text class="d-sub" x="645" y="160" text-anchor="middle">ve el destino</text>
+        <text class="d-sub" x="645" y="177" text-anchor="middle">no ve tu IP</text>
+        <text class="d-sub" x="840" y="160" text-anchor="middle">ve la IP del Exit</text>
+        <text class="d-sub" x="157" y="215" text-anchor="middle">Tu ISP solo ve que te conectas a un relé de Tor</text>
+      </svg>
+      <figcaption>El tráfico viaja dentro del circuito en celdas de tamaño fijo, cifradas en capas como vimos antes.</figcaption>
+    </figure>
+    <div class="fichas">
+      <div class="ficha ficha--verde"><h4>Guard</h4><p>Primer salto. Tu proveedor de Internet ve la conexión hacia este relé de entrada. Tor lo mantiene estable por un tiempo para reducir el riesgo de caer en un relé malicioso.</p></div>
+      <div class="ficha"><h4>Middle</h4><p>Relé intermedio que separa el origen del último salto. No sabe quién eres ni a dónde vas.</p></div>
+      <div class="ficha ficha--rojo"><h4>Exit</h4><p>Último relé: conecta con el servidor de la web pública. Para el sitio visitado, la conexión “viene” de aquí.</p></div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="02">¿Quién sabe qué?</h3>
+    <div class="quien">
+      <div><b>Tu ISP</b><span class="si">Sabe que usas Tor</span><span class="no">No sabe qué visitas</span></div>
+      <div><b>Guard</b><span class="si">Conoce tu IP</span><span class="no">No conoce el destino</span></div>
+      <div><b>Middle</b><span class="no">No conoce tu IP</span><span class="no">No conoce el destino</span></div>
+      <div><b>Exit</b><span class="si">Conoce el destino</span><span class="no">No conoce tu IP</span></div>
+      <div><b>Sitio web</b><span class="si">Ve la IP del Exit</span><span class="no">No ve tu IP</span></div>
+    </div>
+    <p>Ninguna pieza por sí sola tiene la foto completa. Para unir origen y destino, alguien tendría que controlar u observar varios puntos a la vez.</p>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="03">El límite del relé de salida</h3>
+    <ul>
+      <li>Tor cifra el tráfico <strong>dentro del circuito</strong>, entre el cliente y los relés.</li>
+      <li>El tramo entre el relé de salida y un sitio público depende del <strong>cifrado de la aplicación</strong>.</li>
+      <li>Usar HTTPS protege ese tramo.</li>
+      <li>Un servicio <code>.onion</code> permanece dentro de Tor y <strong>no necesita relé de salida</strong>.</li>
+    </ul>
+    <div class="aviso"><b>CUIDADO CON HTTP</b>Si visitas un sitio público con HTTP (sin la “S”), el operador del relé de salida podría observar o modificar el contenido que va y viene.</div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="04">Servicios onion</h3>
+    <p>Tor no solo oculta la ubicación del cliente: también puede ocultar la del <strong>servidor</strong>. Un servicio onion se accede únicamente mediante Tor y su dirección termina en <code>.onion</code>. Lo más interesante es que la dirección <strong>es</strong> su identidad criptográfica: permite verificar que hablas con el servicio auténtico sin depender de DNS ni de certificados.</p>
+    <h4>¿Cómo se forma una dirección onion v3?</h4>
+    <pre data-t="FÓRMULA"><code>dirección = Base32( clave pública || checksum || versión ) + ".onion"</code></pre>
+    <div class="bytes" aria-label="Estructura de 35 bytes">
+      <div class="b1">Clave pública Ed25519<small>32 bytes</small></div>
+      <div class="b2">Checksum<small>2 bytes</small></div>
+      <div class="b3">Versión<small>1 byte · 0x03</small></div>
+    </div>
+    <ul>
+      <li><strong>Clave pública Ed25519</strong> (32 bytes): identifica al servicio. No contiene la clave privada, que se queda en el servidor.</li>
+      <li><strong>Checksum</strong> (2 bytes): los primeros bytes de <code>SHA3-256(".onion checksum" || clave pública || versión)</code>. Sirve para detectar errores al escribir la dirección.</li>
+      <li><strong>Versión</strong> (1 byte): el valor <code>0x03</code>, que identifica el formato v3.</li>
+    </ul>
+    <p>Son 35 bytes = 280 bits. Base32 usa 5 bits por carácter, así que 280 ÷ 5 = <strong>56 caracteres</strong>, a los que se agrega <code>.onion</code>.</p>
+    <div class="nota"><b>BASE32 NO CIFRA</b>La dirección solo representa datos públicos en un formato legible. Tor usa la clave pública para comprobar que la información del servicio esté firmada con la clave privada correspondiente.</div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="05">Rendimiento y observabilidad</h3>
+    <ul>
+      <li>Tor prioriza circuitos de <strong>baja latencia</strong> para que navegar sea práctico.</li>
+      <li>La baja latencia no elimina el <strong>análisis de tráfico</strong>: un observador capaz de medir ambos extremos puede intentar correlacionar patrones de tiempo y volumen.</li>
+      <li>En redes censuradas se pueden usar <strong>bridges</strong>: relés que no aparecen en el directorio público habitual y por eso son más difíciles de bloquear.</li>
+      <li><strong>Tor Metrics</strong> estima el uso, entre otras señales, a partir de solicitudes a los directorios; los clientes que usan bridges se estiman por separado.</li>
+    </ul>
+    <a class="volver" href="#historia">◀ HISTORIA</a>
+    <a class="volver siguiente" href="#i2p">I2P ▶</a>
+  </article>
+</div>
+</section>
+
+<!-- =========================================================
+     04 · I2P
+     ========================================================= -->
+<section class="pantalla" id="i2p" aria-labelledby="t-i2p">
+<div class="escena">
+  <div class="encabezado">
+    <div class="carta"><img src="img/arcano-9.svg" alt="" width="200" height="320"><span class="carta__num">IX</span><span class="carta__nombre">EL ERMITAÑO</span></div>
+    <div>
+      <h2 class="titulo" id="t-i2p">I2P</h2>
+      <span class="titulo__sub">Invisible Internet Project: una red hacia adentro</span>
+    </div>
+  </div>
+
+  <article class="panel">
+    <h3 data-n="01">Router y destino</h3>
+    <div class="fichas">
+      <div class="ficha"><h4>Router</h4><p>El programa que participa en I2P (por ejemplo, <code>i2pd</code>). Transporta tráfico de la red, incluido tráfico de otras personas.</p></div>
+      <div class="ficha ficha--verde"><h4>Destino</h4><p>Una identidad criptográfica usada por una aplicación o servicio. Es a lo que te conectas, no a una IP.</p></div>
+    </div>
+    <p>Un router puede manejar <strong>varios destinos</strong>: por ejemplo, uno para un sitio web y otro para una aplicación de mensajería. La red busca separar la identidad del router de los destinos que este sirve, para que no se pueda deducir qué máquina hay detrás de cada servicio.</p>
+    <div class="nota"><b>ANALOGÍA</b>El router es como un teléfono; los destinos son distintos números que ese teléfono atiende. Quien te llama conoce el número, pero no dónde está el teléfono.</div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="02">Túneles unidireccionales</h3>
+    <p>A diferencia de Tor, donde un circuito sirve para ir y volver, en I2P cada router construye <strong>túneles de un solo sentido</strong>:</p>
+    <ul>
+      <li>El túnel <strong>outbound</strong> lleva mensajes desde el router local hacia la red.</li>
+      <li>El túnel <strong>inbound</strong> lleva mensajes desde la red hasta el router local.</li>
+      <li>La ida y la respuesta usan túneles distintos: no hay un único camino bidireccional compartido.</li>
+    </ul>
+    <figure class="diagrama">
+      <svg viewBox="0 0 900 300" role="img" aria-label="La ida va por el outbound de Alice y el inbound de Bob; la respuesta por el outbound de Bob y el inbound de Alice.">
+        <defs>
+          <marker id="fl-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#2ec5ff"/></marker>
+          <marker id="fl-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#5dffb8"/></marker>
+        </defs>
+        <rect class="d-caja2" x="10" y="110" width="150" height="80" rx="4"/><text class="d-txt" x="85" y="146" text-anchor="middle">Router</text><text class="d-txt" x="85" y="166" text-anchor="middle">Alice</text>
+        <rect class="d-caja2" x="740" y="110" width="150" height="80" rx="4"/><text class="d-txt" x="815" y="146" text-anchor="middle">Router</text><text class="d-txt" x="815" y="166" text-anchor="middle">Bob</text>
+        <!-- ida -->
+        <polyline class="d-linea2 d-flujo" points="160,125 220,60 360,60"/>
+        <line class="d-punteada" x1="360" y1="60" x2="540" y2="60"/>
+        <polyline class="d-linea d-flujo" points="540,60 680,60 735,120" marker-end="url(#fl-a)"/>
+        <g class="d-verde"><circle cx="220" cy="60" r="12"/><circle cx="290" cy="60" r="12"/><circle cx="360" cy="60" r="12"/></g>
+        <g class="d-caja"><circle cx="540" cy="60" r="12"/><circle cx="610" cy="60" r="12"/><circle cx="680" cy="60" r="12"/></g>
+        <text class="d-tit" x="290" y="30" text-anchor="middle">OUTBOUND DE ALICE</text>
+        <text class="d-tit" x="610" y="30" text-anchor="middle">INBOUND DE BOB</text>
+        <text class="d-sub" x="450" y="80" text-anchor="middle">ida</text>
+        <!-- respuesta -->
+        <polyline class="d-linea2 d-flujo" points="740,175 680,240 540,240"/>
+        <line class="d-punteada" x1="540" y1="240" x2="360" y2="240"/>
+        <polyline class="d-linea d-flujo" points="360,240 220,240 165,180" marker-end="url(#fl-a)"/>
+        <g class="d-verde"><circle cx="680" cy="240" r="12"/><circle cx="610" cy="240" r="12"/><circle cx="540" cy="240" r="12"/></g>
+        <g class="d-caja"><circle cx="360" cy="240" r="12"/><circle cx="290" cy="240" r="12"/><circle cx="220" cy="240" r="12"/></g>
+        <text class="d-tit" x="610" y="282" text-anchor="middle">OUTBOUND DE BOB</text>
+        <text class="d-tit" x="290" y="282" text-anchor="middle">INBOUND DE ALICE</text>
+        <text class="d-sub" x="450" y="232" text-anchor="middle">respuesta</text>
+      </svg>
+      <figcaption>Verde: túneles outbound. Cian: túneles inbound. Cada círculo es un router de otra persona que solo conoce el salto anterior y el siguiente.</figcaption>
+    </figure>
+    <p>Como un observador tendría que vigilar <strong>cuatro túneles</strong> distintos para seguir una conversación completa, la correlación es más difícil. Además, en I2P casi todos los participantes ayudan a transportar tráfico ajeno, lo que hace la red más distribuida.</p>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="03">Garlic routing</h3>
+    <p>Si Tor es una cebolla, I2P es un <strong>ajo</strong>. El garlic routing agrupa varios mensajes relacionados (los “dientes”) dentro de un mismo mensaje cifrado, llamado <em>garlic message</em>. Cada diente puede contener sus propios datos e instrucciones de entrega.</p>
+    <figure class="diagrama">
+      <svg viewBox="0 0 900 200" role="img" aria-label="Un mensaje garlic cifrado contiene datos, confirmación y control, y viaja por dos saltos hasta el destino.">
+        <defs><marker id="fl-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#2ec5ff"/></marker></defs>
+        <rect x="15" y="25" width="405" height="150" rx="40" fill="#04153a" stroke="#a6f1ff" stroke-width="3"/>
+        <text class="d-tit" x="217" y="62" text-anchor="middle">MENSAJE GARLIC CIFRADO</text>
+        <rect class="d-caja" x="40" y="90" width="110" height="55" rx="22"/><text class="d-txt" x="95" y="123" text-anchor="middle">Datos</text>
+        <rect class="d-verde" x="162" y="90" width="122" height="55" rx="22"/><text class="d-txt" x="223" y="123" text-anchor="middle">Confirmación</text>
+        <rect class="d-rojo" x="296" y="90" width="105" height="55" rx="22"/><text class="d-txt" x="348" y="123" text-anchor="middle">Control</text>
+        <g class="d-linea"><line x1="420" y1="100" x2="476" y2="100" marker-end="url(#fl-c)"/><line x1="580" y1="100" x2="626" y2="100" marker-end="url(#fl-c)"/><line x1="730" y1="100" x2="776" y2="100" marker-end="url(#fl-c)"/></g>
+        <rect class="d-caja" x="480" y="75" width="100" height="50" rx="4"/><text class="d-txt" x="530" y="105" text-anchor="middle">Salto 1</text>
+        <rect class="d-caja" x="630" y="75" width="100" height="50" rx="4"/><text class="d-txt" x="680" y="105" text-anchor="middle">Salto 2</text>
+        <rect class="d-caja2" x="780" y="75" width="110" height="50" rx="4"/><text class="d-txt" x="835" y="105" text-anchor="middle">Destino</text>
+      </svg>
+      <figcaption>Datos, confirmaciones y mensajes de control viajan juntos dentro de una sola “cabeza de ajo” cifrada.</figcaption>
+    </figure>
+    <p>Agrupar datos, confirmaciones y mensajes de control es una diferencia de diseño frente al encaminamiento de una sola capa por mensaje: a quien observa le cuesta más saber qué parte del tráfico es contenido y qué parte es control.</p>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="04">netDb y LeaseSet: encontrar el camino</h3>
+    <p>Si los túneles cambian y nadie conoce la IP de nadie, ¿cómo encuentra Alice a Bob? Con la <strong>netDb</strong>, la base de datos distribuida de I2P, mantenida por routers especiales llamados <em>floodfill</em>.</p>
+    <ul>
+      <li>El emisor consulta la netDb para encontrar el destino del receptor.</li>
+      <li>El <strong>LeaseSet</strong> de un destino anuncia información de sus túneles inbound (sus “puertas de entrada”, válidas por poco tiempo).</li>
+      <li>El mensaje de ida y la respuesta recorren conjuntos de túneles independientes.</li>
+    </ul>
+    <figure class="diagrama">
+      <svg viewBox="0 0 900 320" role="img" aria-label="Alice consulta el LeaseSet de Bob en la netDb, recibe sus gateways inbound, le envía un mensaje y Bob responde.">
+        <defs>
+          <marker id="fl-d" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#2ec5ff"/></marker>
+          <marker id="fl-e" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#5dffb8"/></marker>
+        </defs>
+        <rect class="d-caja2" x="60" y="15" width="160" height="46" rx="4"/><text class="d-txt" x="140" y="44" text-anchor="middle">Router Alice</text>
+        <rect class="d-caja" x="370" y="15" width="160" height="46" rx="4"/><text class="d-txt" x="450" y="44" text-anchor="middle">netDb distribuida</text>
+        <rect class="d-caja2" x="680" y="15" width="160" height="46" rx="4"/><text class="d-txt" x="760" y="44" text-anchor="middle">Router Bob</text>
+        <g class="d-punteada"><line x1="140" y1="61" x2="140" y2="305"/><line x1="450" y1="61" x2="450" y2="305"/><line x1="760" y1="61" x2="760" y2="305"/></g>
+        <line class="d-linea" x1="140" y1="110" x2="445" y2="110" marker-end="url(#fl-d)"/>
+        <text class="d-sub" x="295" y="100" text-anchor="middle">1 · Consultar el LeaseSet de Bob</text>
+        <line class="d-linea2" x1="450" y1="160" x2="145" y2="160" stroke-dasharray="8 6" marker-end="url(#fl-e)"/>
+        <text class="d-sub" x="295" y="150" text-anchor="middle">2 · Devolver los gateways inbound de Bob</text>
+        <line class="d-linea" x1="140" y1="215" x2="755" y2="215" marker-end="url(#fl-d)"/>
+        <text class="d-sub" x="450" y="205" text-anchor="middle">3 · Enviar por el outbound de Alice y el inbound de Bob</text>
+        <line class="d-linea2" x1="760" y1="270" x2="145" y2="270" marker-end="url(#fl-e)"/>
+        <text class="d-sub" x="450" y="260" text-anchor="middle">4 · Responder por el outbound de Bob y el inbound de Alice</text>
+      </svg>
+    </figure>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="05">Direcciones .i2p</h3>
+    <ul>
+      <li>Los sitios dentro de I2P se llaman <strong>eepsites</strong> y usan direcciones <code>.i2p</code>.</li>
+      <li>Toda dirección tiene una forma “cruda” <code>.b32.i2p</code>: 52 caracteres en Base32 obtenidos a partir del hash del destino. Funciona siempre, sin depender de nadie.</li>
+      <li>Los nombres legibles (como <code>reg.i2p</code>) se resuelven con una <strong>libreta de direcciones</strong> local que se alimenta de servicios de registro, porque en I2P no existe un DNS central.</li>
+    </ul>
+    <a class="volver" href="#tor">◀ TOR</a>
+    <a class="volver siguiente" href="#acceso">ACCESO ▶</a>
+  </article>
+</div>
+</section>
+
+<!-- =========================================================
+     05 · ACCESO
+     ========================================================= -->
+<section class="pantalla" id="acceso" aria-labelledby="t-acceso">
+<div class="escena">
+  <div class="encabezado">
+    <div class="carta"><img src="img/arcano-1.svg" alt="" width="200" height="320"><span class="carta__num">I</span><span class="carta__nombre">EL MAGO</span></div>
+    <div>
+      <h2 class="titulo" id="t-acceso">Acceso</h2>
+      <span class="titulo__sub">¿Qué pasa cuando escribes una dirección .onion o .i2p?</span>
+    </div>
+  </div>
+
+  <article class="panel">
+    <h3 data-n="01">Entrar a un sitio .onion, paso a paso</h3>
+    <p>Cliente y servicio quieren hablar sin que ninguno conozca la IP del otro. La solución es encontrarse en un <strong>punto neutral</strong> de la red.</p>
+    <ol class="pasos">
+      <li><b>El servicio crea su identidad</b>Genera un par de claves Ed25519. De la clave pública sale su dirección <code>.onion</code>.</li>
+      <li><b>Elige puntos de introducción</b>Construye circuitos Tor hacia algunos relés que actuarán como su “recepción”.</li>
+      <li><b>Publica su descriptor</b>Firma un descriptor que dice cuáles son sus puntos de introducción y lo sube a relés de directorio (HSDir). Va cifrado de forma que solo quien conoce la dirección puede leerlo.</li>
+      <li><b>El cliente busca el descriptor</b>A partir de la dirección calcula dónde está, lo descarga y verifica la firma con la clave pública incluida en la propia dirección.</li>
+      <li><b>El cliente prepara el punto de encuentro</b>Elige un relé como <em>rendezvous point</em>, le construye un circuito y le deja un secreto de un solo uso.</li>
+      <li><b>Se presenta por la recepción</b>A través de un punto de introducción envía al servicio un mensaje cifrado: “te espero en tal punto de encuentro, con este secreto”.</li>
+      <li><b>El servicio acude a la cita</b>Construye su propio circuito hasta el punto de encuentro. Allí se unen ambos circuitos y empieza la comunicación, cifrada de extremo a extremo.</li>
+    </ol>
+    <figure class="diagrama">
+      <svg viewBox="0 0 900 420" role="img" aria-label="Protocolo de encuentro de un servicio onion con HSDir, punto de introducción y punto de encuentro.">
+        <g class="d-linea2"><line x1="730" y1="205" x2="530" y2="75"/><line x1="730" y1="215" x2="530" y2="215"/><line x1="730" y1="225" x2="530" y2="355"/></g>
+        <g class="d-linea"><line x1="170" y1="205" x2="370" y2="75"/><line x1="170" y1="215" x2="370" y2="215"/><line x1="170" y1="225" x2="370" y2="355"/></g>
+        <rect class="d-caja" x="370" y="40" width="160" height="50" rx="4"/><text class="d-txt" x="450" y="70" text-anchor="middle">HSDir (directorio)</text>
+        <rect class="d-caja" x="370" y="190" width="160" height="50" rx="4"/><text class="d-txt" x="450" y="212" text-anchor="middle">Punto de</text><text class="d-txt" x="450" y="230" text-anchor="middle">introducción</text>
+        <rect class="d-verde" x="370" y="330" width="160" height="50" rx="4"/><text class="d-txt" x="450" y="352" text-anchor="middle">Punto de</text><text class="d-txt" x="450" y="370" text-anchor="middle">encuentro</text>
+        <rect class="d-caja2" x="20" y="190" width="150" height="50" rx="4"/><text class="d-txt" x="95" y="220" text-anchor="middle">Cliente</text>
+        <rect class="d-caja2" x="730" y="190" width="150" height="50" rx="4"/><text class="d-txt" x="805" y="220" text-anchor="middle">Servicio .onion</text>
+        <g fill="#5dffb8"><circle cx="630" cy="215" r="14"/><circle cx="630" cy="140" r="14"/><circle cx="630" cy="290" r="14"/></g>
+        <g fill="#2ec5ff"><circle cx="270" cy="140" r="14"/><circle cx="270" cy="290" r="14"/><circle cx="270" cy="215" r="14"/></g>
+        <g class="d-txt" fill="#010414" style="fill:#010414" text-anchor="middle">
+          <text x="630" y="220" style="fill:#010414">2</text><text x="630" y="145" style="fill:#010414">3</text><text x="630" y="295" style="fill:#010414">7</text>
+          <text x="270" y="145" style="fill:#010414">4</text><text x="270" y="295" style="fill:#010414">5</text><text x="270" y="220" style="fill:#010414">6</text>
+        </g>
+        <text class="d-sub" x="95" y="265" text-anchor="middle">nunca revela su IP</text>
+        <text class="d-sub" x="805" y="265" text-anchor="middle">nunca revela su IP</text>
+        <text class="d-tit" x="450" y="410" text-anchor="middle">CLIENTE ⇄ 3 RELÉS ⇄ ENCUENTRO ⇄ 3 RELÉS ⇄ SERVICIO</text>
+      </svg>
+      <figcaption>Los números coinciden con los pasos. Cada línea representa un circuito Tor completo, no una conexión directa. No hay relé de salida: todo ocurre dentro de Tor.</figcaption>
+    </figure>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="02">En la práctica: Tor Browser</h3>
+    <p>En Kali Linux (o en una máquina virtual con otra distribución basada en Debian) se instala el lanzador oficial:</p>
+    <pre data-t="TERMINAL"><code>sudo apt update
+sudo apt install -y torbrowser-launcher
+torbrowser-launcher</code></pre>
+    <p>La primera vez, el lanzador descarga y <strong>verifica</strong> Tor Browser. Al abrirse, se pulsa <em>Conectar</em> y se espera a que se establezca la conexión. Después se puede comprobar en <code>check.torproject.org</code> que la navegación pasa por Tor, y visitar cualquier dirección <code>.onion</code> escribiéndola completa.</p>
+    <h4>Y para programas de terminal: Proxychains4</h4>
+    <p>Tor también ofrece un proxy SOCKS local. Proxychains4 dirige las conexiones TCP de <em>un programa concreto</em> a través de él, sin modificar ese programa.</p>
+    <pre data-t="TERMINAL"><code>sudo apt install -y proxychains4
+sudo systemctl start tor
+sudo nano /etc/proxychains4.conf</code></pre>
+    <pre data-t="/etc/proxychains4.conf"><code>dynamic_chain
+proxy_dns
+# strict_chain       (comentada)
+# round_robin_chain  (comentada)
+
+[ProxyList]
+socks5 127.0.0.1 9050</code></pre>
+    <pre data-t="COMPROBAR"><code>proxychains4 -q curl https://check.torproject.org/api/ip
+# la respuesta JSON debe mostrar "IsTor": true</code></pre>
+    <div class="aviso"><b>IMPORTANTE</b>Anteponer <code>proxychains4</code> afecta únicamente al programa ejecutado con ese comando: no enruta todo el tráfico del sistema ni reemplaza a Tor Browser.</div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="03">Entrar a un sitio .i2p, paso a paso</h3>
+    <ol class="pasos">
+      <li><b>Instalar e iniciar un router</b>En este caso <code>i2pd</code>, una implementación de I2P escrita en C++.</li>
+      <li><b>Activar el proxy HTTP local</b>El navegador no habla I2P directamente: le entrega las peticiones a un proxy en tu propia máquina.</li>
+      <li><b>Esperar la integración</b>Durante unos minutos el router conoce a otros routers, llena su netDb y construye sus túneles.</li>
+      <li><b>Resolver el nombre</b>Al pedir <code>http://algo.i2p</code>, el proxy busca ese nombre en la libreta de direcciones y obtiene el destino (o lo calcula directamente si es una dirección <code>.b32.i2p</code>).</li>
+      <li><b>Buscar el LeaseSet</b>El router consulta la netDb para saber por qué túneles inbound se llega a ese destino.</li>
+      <li><b>Enviar y recibir</b>La petición sale por tu túnel outbound hacia el inbound del sitio; la página vuelve por el outbound del sitio hacia tu inbound.</li>
+    </ol>
+    <pre data-t="TERMINAL"><code>sudo apt update
+sudo apt install -y i2pd
+sudo systemctl enable --now i2pd
+systemctl status i2pd --no-pager
+sudo nano /etc/i2pd/i2pd.conf</code></pre>
+    <pre data-t="/etc/i2pd/i2pd.conf"><code>[httpproxy]
+enabled = true
+address = 127.0.0.1
+port = 4444</code></pre>
+    <pre data-t="TERMINAL"><code>sudo systemctl restart i2pd</code></pre>
+    <p>Luego, en el navegador (por ejemplo LibreWolf): <em>Ajustes → General → Ajustes de red → Configuración → Configuración manual del proxy</em>. Proxy HTTP <code>127.0.0.1</code>, puerto <code>4444</code>, marcando la opción de usarlo también para HTTPS y conservando <code>localhost, 127.0.0.1</code> en “Sin proxy para”. Con eso ya se puede visitar <code>http://reg.i2p/</code>.</p>
+    <div class="aviso"><b>IMPORTANTE</b>Mantén <code>127.0.0.1</code> para no exponer el proxy a otros equipos. Este proxy está pensado para acceder a destinos I2P: no equivale a una VPN ni garantiza anonimato por sí solo.</div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="04">Así se publica un sitio como este</h3>
+    <p>La página es solo un conjunto de archivos HTML y CSS servidos por un servidor web que escucha <strong>únicamente en la máquina local</strong> (por ejemplo, en <code>127.0.0.1:8080</code>). Tor e I2P se encargan de “sacarlo” a sus redes sin revelar dónde está.</p>
+    <div class="dos-columnas">
+      <div>
+        <h4>En Tor</h4>
+        <pre data-t="/etc/tor/torrc"><code>HiddenServiceDir /var/lib/tor/sitio/
+HiddenServicePort 80 127.0.0.1:8080</code></pre>
+        <p>Al reiniciar Tor se crean las claves y el archivo <code>hostname</code>, que contiene la dirección <code>.onion</code> del sitio.</p>
+      </div>
+      <div>
+        <h4>En I2P (i2pd)</h4>
+        <pre data-t="/etc/i2pd/tunnels.conf"><code>[sitio]
+type = http
+host = 127.0.0.1
+port = 8080
+keys = sitio.dat</code></pre>
+        <p>Al reiniciar i2pd se genera el destino; su dirección <code>.b32.i2p</code> aparece en la consola web local del router.</p>
+      </div>
+    </div>
+    <div class="nota"><b>POR QUÉ SIN JAVASCRIPT NI RECURSOS EXTERNOS</b>Todo lo que ves (fuentes, imágenes, música y estilos) está dentro de la misma carpeta. Así carga igual en Tor y en I2P, no filtra peticiones a otros servidores y funciona con el nivel de seguridad más alto de Tor Browser.</div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="05">Recomendaciones</h3>
+    <div class="fichas">
+      <div class="ficha ficha--rojo"><h4>No instalar extensiones</h4><p>Cambian la “huella” del navegador y pueden hacer peticiones por su cuenta.</p></div>
+      <div class="ficha ficha--rojo"><h4>No descargar ni abrir archivos</h4><p>Un documento abierto fuera del navegador puede conectarse a Internet sin pasar por la red anónima.</p></div>
+      <div class="ficha ficha--rojo"><h4>No usar cuentas personales</h4><p>Iniciar sesión con tu cuenta te identifica, sin importar la red.</p></div>
+      <div class="ficha ficha--rojo"><h4>No tocar la seguridad de Tor Browser</h4><p>Su configuración está pensada para que todos los usuarios se vean iguales.</p></div>
+    </div>
+    <a class="volver" href="#i2p">◀ I2P</a>
+    <a class="volver siguiente" href="#comparar">TOR VS I2P ▶</a>
+  </article>
+</div>
+</section>
+
+<!-- =========================================================
+     06 · COMPARAR
+     ========================================================= -->
+<section class="pantalla" id="comparar" aria-labelledby="t-comparar">
+<div class="escena">
+  <div class="encabezado">
+    <div class="carta"><img src="img/arcano-11.svg" alt="" width="200" height="320"><span class="carta__num">XI</span><span class="carta__nombre">LA JUSTICIA</span></div>
+    <div>
+      <h2 class="titulo" id="t-comparar">Tor vs I2P</h2>
+      <span class="titulo__sub">Mismo objetivo, diseños distintos</span>
+    </div>
+  </div>
+
+  <article class="panel">
+    <h3 data-n="01">Cara a cara</h3>
+    <div class="tabla-envoltura">
+      <table>
+        <thead><tr><th scope="col"><span class="saltar">Aspecto</span></th><th scope="col">TOR</th><th scope="col">I2P</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Objetivo principal</th><td>Facilitar el acceso privado a sitios de la web pública.</td><td>Priorizar servicios y comunicación dentro de la propia red.</td></tr>
+          <tr><th scope="row">Rutas</th><td>Circuitos de varios relés, normalmente tres saltos, que sirven para ir y volver.</td><td>Túneles unidireccionales: uno de salida (outbound) y otro de entrada (inbound).</td></tr>
+          <tr><th scope="row">Unidad de envío</th><td>Celdas cifradas en capas (onion routing).</td><td>Mensajes que agrupan varios “dientes” (garlic routing).</td></tr>
+          <tr><th scope="row">Directorio</th><td>Consenso publicado por autoridades de directorio.</td><td>netDb distribuida, mantenida por routers floodfill.</td></tr>
+          <tr><th scope="row">Servicios</th><td>Servicios onion con direcciones <code>.onion</code>.</td><td>Eepsites con direcciones <code>.i2p</code> / <code>.b32.i2p</code>.</td></tr>
+          <tr><th scope="row">Salida a la web pública</th><td>Sí, mediante relés de salida.</td><td>Muy limitada: no es su propósito.</td></tr>
+          <tr><th scope="row">Cliente típico</th><td>Tor Browser, listo para usar.</td><td>Un router (i2pd o I2P Java) + navegador configurado con proxy.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="02">¿Cuál conviene?</h3>
+    <div class="dos-columnas">
+      <div>
+        <h4>Tor</h4>
+        <p>Cuando quieres <strong>navegar la web normal</strong> sin revelar tu IP, evadir censura (con bridges) o visitar servicios <code>.onion</code>. Es lo más sencillo de usar.</p>
+      </div>
+      <div>
+        <h4>I2P</h4>
+        <p>Cuando el servicio <strong>vive dentro de la red</strong>: sitios internos, mensajería o intercambio entre pares. Su diseño está optimizado para esa comunicación interna.</p>
+      </div>
+    </div>
+    <div class="nota"><b>EN AMBOS CASOS</b>Ninguna es una VPN, ninguna es mágica y ambas son más lentas que la conexión normal: el anonimato se paga en latencia.</div>
+  </article>
+
+  <article class="panel">
+    <h3 data-n="03">Glosario rápido</h3>
+    <div class="fichas">
+      <div class="ficha"><h4>Relé</h4><p>Servidor voluntario de Tor que reenvía tráfico.</p></div>
+      <div class="ficha"><h4>Circuito</h4><p>Camino de varios relés que usa un cliente Tor.</p></div>
+      <div class="ficha"><h4>Consenso</h4><p>Lista firmada de relés que todo cliente Tor descarga.</p></div>
+      <div class="ficha"><h4>Bridge</h4><p>Relé de entrada no publicado, útil contra la censura.</p></div>
+      <div class="ficha"><h4>HSDir</h4><p>Relé que guarda descriptores de servicios onion.</p></div>
+      <div class="ficha"><h4>Punto de encuentro</h4><p>Relé donde se unen los circuitos del cliente y del servicio.</p></div>
+      <div class="ficha ficha--verde"><h4>Destino</h4><p>Identidad criptográfica de un servicio en I2P.</p></div>
+      <div class="ficha ficha--verde"><h4>Túnel</h4><p>Camino de un solo sentido entre routers I2P.</p></div>
+      <div class="ficha ficha--verde"><h4>LeaseSet</h4><p>Anuncio de los túneles inbound de un destino.</p></div>
+      <div class="ficha ficha--verde"><h4>Floodfill</h4><p>Router que almacena y reparte la netDb.</p></div>
+      <div class="ficha ficha--verde"><h4>Eepsite</h4><p>Sitio web alojado dentro de I2P.</p></div>
+      <div class="ficha ficha--rojo"><h4>Correlación</h4><p>Intentar unir origen y destino comparando patrones de tráfico.</p></div>
+    </div>
+    <a class="volver" href="#acceso">◀ ACCESO</a>
+    <a class="volver siguiente" href="#menu">MENÚ ▶</a>
+  </article>
+</div>
+</section>
+
+<!-- =========================================================
+     MENÚ PRINCIPAL (visible cuando no hay ninguna sección abierta)
+     Debe ir DESPUÉS de las secciones para que funcione el selector "~".
+     ========================================================= -->
+<section class="menu" id="menu" aria-labelledby="t-menu">
+<div class="escena">
+  <div class="portada">
+    <div>
+      <h1 class="portada__titulo" id="t-menu">TOR<span>&amp;</span>I2P</h1>
+      <span class="portada__lema">La hora oscura de la red</span>
+      <p class="portada__texto">Existe una hora que no aparece en ningún reloj… y una parte de la red que no aparece en ningún buscador. Aquí aprenderás qué son <strong>Tor</strong> e <strong>I2P</strong>, de dónde vienen y qué ocurre, paso a paso, cuando abres un sitio <code>.onion</code> o <code>.i2p</code>.</p>
+    </div>
+    <nav aria-label="Menú principal">
+      <ol class="menu-principal">
+        <li><a href="#darkweb">DARK WEB <small>¿QUÉ ES?</small></a></li>
+        <li><a href="#historia">HISTORIA <small>1995 → HOY</small></a></li>
+        <li><a href="#tor">TOR <small>LA CEBOLLA</small></a></li>
+        <li><a href="#i2p">I2P <small>EL AJO</small></a></li>
+        <li><a href="#acceso">ACCESO <small>PASO A PASO</small></a></li>
+        <li><a href="#comparar">TOR VS I2P <small>COMPARAR</small></a></li>
+      </ol>
+    </nav>
+  </div>
+
+  <article class="panel portada__comparar">
+    <h3 data-n="▶">Antes de empezar</h3>
+    <div class="dos-columnas">
+      <p>Elige una opción del menú. Cada sección abre su propia “pantalla” y siempre puedes volver tocando el reloj de la esquina. Si quieres ambientarte, dale play a la música de arriba: sigue sonando mientras cambias de sección.</p>
+      <p>Este sitio está hecho <strong>solo con HTML y CSS</strong>: funciona con JavaScript desactivado y no carga nada fuera de su propia carpeta, para que sea liviano y seguro tanto en Tor como en I2P.</p>
+    </div>
+  </article>
+</div>
+</section>
+
+</main>
+
+<footer class="pie">
+  <p>Música:“Color Your Night” (Lotus Juice), de la banda sonora de Persona 3 Reload; todos los derechos pertenecen a sus autores. Tipografía: Barlow y Barlow Condensed (SIL Open Font License 1.1).</p>
+</footer>
+
+<!-- Aquí va el script de verificación. -->
+
+</body>
+</html>

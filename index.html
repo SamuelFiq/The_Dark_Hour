@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-
 <script>
   // Si este código se ejecuta, JavaScript está ACTIVADO: detener la carga y avisar.
   window.stop();
@@ -10,22 +9,68 @@
   var cuerpo = document.body || document.createElement("body");
   cuerpo.style.cssText = "margin:0;min-height:100vh;background:#010414;color:#d9ecff;font-family:sans-serif;";
   cuerpo.innerHTML = `
-    <div style="max-width:620px;margin:60px auto;padding:30px;border:3px solid #ff3355;
-                background:#04153a;box-shadow:0 0 30px rgba(255,51,85,.35);">
-      <h1 style="color:#ff3355;margin-top:0;">⚠ JavaScript está activado</h1>
-      <p>Por tu seguridad, este sitio <strong>no se carga</strong> con JavaScript activado.
-         En redes anónimas, JavaScript puede usarse para revelar tu identidad o tu IP real.</p>
-      <h3 style="color:#2ec5ff;">Cómo desactivarlo</h3>
-      <ul>
-        <li><strong>Tor Browser:</strong> ícono del escudo → Settings → nivel <strong>"Safest"</strong>.</li>
-        <li><strong>Firefox / LibreWolf (I2P):</strong> abre <code>about:config</code>, busca
-            <code>javascript.enabled</code> y cámbialo a <strong>false</strong>.</li>
-      </ul>
-      <p>Luego recarga la página.</p>
+    <style>
+      @font-face { font-family: "BC"; src: url("fonts/barlow-condensed-latin-900-italic.woff2") format("woff2"); font-weight: 900; font-style: italic; }
+      @font-face { font-family: "BC"; src: url("fonts/barlow-condensed-latin-700-italic.woff2") format("woff2"); font-weight: 700; font-style: italic; }
+      @font-face { font-family: "BR"; src: url("fonts/barlow-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "BR"; src: url("fonts/barlow-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      .jsv { position: relative; min-height: 100vh; overflow: hidden; padding: 0 0 3rem;
+             font: 400 1.08rem/1.6 "BR", "Segoe UI", sans-serif; color: #d9ecff;
+             background: radial-gradient(circle at 80% 15%, rgba(255,51,85,.25), transparent 45%),
+                         url("img/fondo.svg") center / cover no-repeat, #010414; }
+      .jsv-cinta { display: flex; gap: 2.5rem; white-space: nowrap; margin: 2.2rem -2rem 0; padding: .45rem 0;
+                   transform: rotate(-3deg); background: #ff3355; color: #010414;
+                   font: 900 italic 1.35rem/1 "BC", "Arial Narrow", sans-serif; letter-spacing: .18em;
+                   box-shadow: 0 6px 0 #04153a; }
+      .jsv-caja { position: relative; max-width: 700px; margin: 4rem auto 0; padding: 0 1.2rem; }
+      .jsv-etiqueta { display: inline-block; margin: 0 0 1rem; padding: .2rem 1.2rem .2rem .7rem;
+                      background: #2ec5ff; color: #010414; letter-spacing: .14em;
+                      font: 700 italic 1.05rem/1.3 "BC", "Arial Narrow", sans-serif;
+                      clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); }
+      .jsv h1 { margin: 0 0 1.8rem; color: #fff; text-transform: uppercase;
+                font: 900 italic clamp(2.6rem, 8vw, 4.6rem)/.92 "BC", "Arial Narrow", sans-serif;
+                text-shadow: 4px 4px 0 #ff3355, 9px 9px 0 #04153a; transform: rotate(-3deg); transform-origin: left; }
+      .jsv-panel { padding: 1.6rem 1.8rem; background: linear-gradient(135deg, rgba(4,21,58,.96), rgba(1,4,20,.94));
+                   border-left: 6px solid #ff3355; box-shadow: 0 0 30px rgba(255,51,85,.3);
+                   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%); }
+      .jsv-panel p { margin: 0 0 1rem; }
+      .jsv strong { color: #fff; font-weight: 600; }
+      .jsv h3 { margin: 1.6rem 0 .8rem; color: #2ec5ff; letter-spacing: .06em;
+                font: 900 italic 1.7rem/1.1 "BC", "Arial Narrow", sans-serif; }
+      .jsv ol { list-style: none; margin: 0 0 1.2rem; padding: 0; counter-reset: p; }
+      .jsv li { position: relative; counter-increment: p; margin: 0 0 .9rem; padding: .1rem 0 .7rem 3.6rem;
+                border-bottom: 1px dashed rgba(46,197,255,.3); }
+      .jsv li::before { content: counter(p, decimal-leading-zero); position: absolute; left: 0; top: -.1rem;
+                        font: 900 italic 2.3rem/1 "BC", "Arial Narrow", sans-serif; color: #2ec5ff; text-shadow: 3px 3px 0 #0b3d91; }
+      .jsv code { font-family: ui-monospace, "DejaVu Sans Mono", Consolas, monospace; font-size: .92em;
+                  color: #a6f1ff; background: rgba(46,197,255,.12); padding: .05em .35em; }
+      .jsv-final { display: inline-block; margin: .4rem 0 0 !important; padding: .35rem 1.4rem;
+                   background: #f2fbff; color: #010414; letter-spacing: .1em;
+                   font: 900 italic 1.25rem/1.2 "BC", "Arial Narrow", sans-serif;
+                   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+    </style>
+    <div class="jsv">
+      <div class="jsv-cinta" aria-hidden="true">
+        <span>⚠ JAVASCRIPT DETECTADO</span><span>⚠ JAVASCRIPT DETECTADO</span><span>⚠ JAVASCRIPT DETECTADO</span><span>⚠ JAVASCRIPT DETECTADO</span><span>⚠ JAVASCRIPT DETECTADO</span>
+      </div>
+      <div class="jsv-caja">
+        <span class="jsv-etiqueta">ADVERTENCIA DE SEGURIDAD</span>
+        <h1>⚠ JavaScript está activado</h1>
+        <div class="jsv-panel">
+          <p>Por tu seguridad, este sitio <strong>no se carga</strong> con JavaScript activado.
+             En redes anónimas, JavaScript puede usarse para revelar tu identidad o tu IP real.</p>
+          <h3>Cómo desactivarlo</h3>
+          <ol>
+            <li><strong>Tor Browser:</strong> ícono del escudo → Settings → nivel <strong>"Safest"</strong> (“Más seguro”).</li>
+            <li><strong>Firefox / LibreWolf (I2P):</strong> abre <code>about:config</code>, busca
+                <code>javascript.enabled</code> y cámbialo a <strong>false</strong>.</li>
+          </ol>
+          <p class="jsv-final">Luego recarga la página.</p>
+        </div>
+      </div>
     </div>`;
   if (!document.body) { document.documentElement.appendChild(cuerpo); }
 </script>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="Qué son Tor e I2P, su historia y cómo funciona el acceso a sitios .onion e .i2p. Sitio educativo hecho solo con HTML y CSS.">
@@ -34,11 +79,8 @@
 <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-
 <noscript>
-  <p style="margin:0;padding:8px 16px;background:#04153a;border-bottom:2px solid #5dffb8;color:#5dffb8;text-align:center;">
-    JavaScript desactivado: estás navegando de forma segura.
-  </p>
+  <p class="sello">✅ JavaScript desactivado: estás navegando de forma segura.</p>
 </noscript>
 
 <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -59,9 +101,9 @@
     <span class="hora__dato"><small>LA HORA OSCURA</small>00:00</span>
   </a>
   <div class="musica">
-    <span class="musica__titulo">♪ BGM · Color Your Night<small>Lotus Juice · Persona 3 Reload</small></span>
+    <span class="musica__titulo">♪ BGM · Dark Hour<small>pista original de este sitio</small></span>
     <audio controls loop preload="none">
-      <source src="audio/color-your-night.ogg" type="audio/ogg; codecs=opus">
+      <source src="audio/dark-hour.ogg" type="audio/ogg">
       Tu navegador no puede reproducir audio.
     </audio>
   </div>
@@ -699,7 +741,7 @@ keys = sitio.dat</code></pre>
     <h3 data-n="▶">Antes de empezar</h3>
     <div class="dos-columnas">
       <p>Elige una opción del menú. Cada sección abre su propia “pantalla” y siempre puedes volver tocando el reloj de la esquina. Si quieres ambientarte, dale play a la música de arriba: sigue sonando mientras cambias de sección.</p>
-      <p>Este sitio está hecho <strong>solo con HTML y CSS</strong>: funciona con JavaScript desactivado y no carga nada fuera de su propia carpeta, para que sea liviano y seguro tanto en Tor como en I2P.</p>
+      <p>Este sitio está hecho <strong>solo con HTML y CSS</strong>: está pensado para navegarse con JavaScript desactivado (si lo tienes activado, el sitio no carga y te explica cómo apagarlo) y no carga nada fuera de su propia carpeta, para que sea liviano y seguro tanto en Tor como en I2P.</p>
     </div>
   </article>
 </div>
@@ -708,9 +750,8 @@ keys = sitio.dat</code></pre>
 </main>
 
 <footer class="pie">
-  <p>Música:“Color Your Night” (Lotus Juice), de la banda sonora de Persona 3 Reload; todos los derechos pertenecen a sus autores. Tipografía: Barlow y Barlow Condensed (SIL Open Font License 1.1).</p>
+  <p>Tipografía: Barlow y Barlow Condensed (SIL Open Font License 1.1).</p>
 </footer>
-
 
 </body>
 </html>

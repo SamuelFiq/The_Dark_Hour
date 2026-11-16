@@ -2,6 +2,30 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+
+<script>
+  // Si este código se ejecuta, JavaScript está ACTIVADO: detener la carga y avisar.
+  window.stop();
+  document.title = "JavaScript detectado · La Hora Oscura";
+  var cuerpo = document.body || document.createElement("body");
+  cuerpo.style.cssText = "margin:0;min-height:100vh;background:#010414;color:#d9ecff;font-family:sans-serif;";
+  cuerpo.innerHTML = `
+    <div style="max-width:620px;margin:60px auto;padding:30px;border:3px solid #ff3355;
+                background:#04153a;box-shadow:0 0 30px rgba(255,51,85,.35);">
+      <h1 style="color:#ff3355;margin-top:0;">⚠ JavaScript está activado</h1>
+      <p>Por tu seguridad, este sitio <strong>no se carga</strong> con JavaScript activado.
+         En redes anónimas, JavaScript puede usarse para revelar tu identidad o tu IP real.</p>
+      <h3 style="color:#2ec5ff;">Cómo desactivarlo</h3>
+      <ul>
+        <li><strong>Tor Browser:</strong> ícono del escudo → Settings → nivel <strong>"Safest"</strong>.</li>
+        <li><strong>Firefox / LibreWolf (I2P):</strong> abre <code>about:config</code>, busca
+            <code>javascript.enabled</code> y cámbialo a <strong>false</strong>.</li>
+      </ul>
+      <p>Luego recarga la página.</p>
+    </div>`;
+  if (!document.body) { document.documentElement.appendChild(cuerpo); }
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="Qué son Tor e I2P, su historia y cómo funciona el acceso a sitios .onion e .i2p. Sitio educativo hecho solo con HTML y CSS.">
@@ -10,6 +34,12 @@
 <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
+
+<noscript>
+  <p style="margin:0;padding:8px 16px;background:#04153a;border-bottom:2px solid #5dffb8;color:#5dffb8;text-align:center;">
+    JavaScript desactivado: estás navegando de forma segura.
+  </p>
+</noscript>
 
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 
@@ -681,7 +711,6 @@ keys = sitio.dat</code></pre>
   <p>Música:“Color Your Night” (Lotus Juice), de la banda sonora de Persona 3 Reload; todos los derechos pertenecen a sus autores. Tipografía: Barlow y Barlow Condensed (SIL Open Font License 1.1).</p>
 </footer>
 
-<!-- Aquí va el script de verificación. -->
 
 </body>
 </html>
